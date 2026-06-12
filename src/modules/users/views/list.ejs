@@ -1,0 +1,9 @@
+<h1>Users</h1>
+<ul>
+  <% users.forEach(user => { %>
+    <li>
+      <a href="/users/<%= user.id %>"><%= user.name %></a>
+      — <%= user.email %> (<%= user.role %>)
+    </li>
+  <% }) %>
+</ul>
