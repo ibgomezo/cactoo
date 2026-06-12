@@ -1,4 +1,4 @@
-# Lactus
+# Cactoo
 
 An opinionated Node.js/Express framework for building APIs with optional server-side rendered views. It provides a structured way to organize modules, middlewares, policies, models, and views, keeping configuration separate from application code.
 
