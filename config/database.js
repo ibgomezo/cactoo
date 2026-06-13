@@ -1,6 +1,10 @@
+const base = {
+  dialect: "postgres",
+  seederStorage: "sequelize",
+};
 
 module.exports = {
-  url: process.env.NODE_ENV === "test" ? process.env.DB_URL_TEST : process.env.DB_URL,
-  dialect: "postgres",
-  seederStorage: "sequelize"
-}
+  development: { ...base, url: process.env.DB_URL },
+  test:        { ...base, url: process.env.DB_URL_TEST },
+  production:  { ...base, url: process.env.DB_URL },
+};

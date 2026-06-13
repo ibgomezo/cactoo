@@ -5,7 +5,7 @@
  */
 
 const app = require("./app");
-const debug = require("debug")("myapi:server");
+const debug = require("debug")("cactoo:server");
 const http = require("http");
 
 /**

@@ -1,7 +1,8 @@
-const {Sequelize} = require("sequelize");
+const { Sequelize } = require("sequelize");
 const config = require("../config");
 
-const sequelize = new Sequelize(config.database.url, {
+const env = process.env.NODE_ENV || "development";
+const sequelize = new Sequelize(config.database[env].url, {
   define: {
     paranoid: true
   },

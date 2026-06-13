@@ -8,8 +8,11 @@ const sequelizeInstance = require("./orm");
 function loadModels(sequelize, modelsPath, db) {
   fs
     .readdirSync(modelsPath)
+    .filter(file => file.endsWith(".js") && !fs.statSync(path.join(modelsPath, file)).isDirectory())
     .forEach(file => {
-      const model = require(path.join(modelsPath, file))(sequelize, DataTypes);
+      const modelDef = require(path.join(modelsPath, file));
+      if (typeof modelDef !== "function") return;
+      const model = modelDef(sequelize, DataTypes);
       if (db) {
         db[model.name] = model;
       }

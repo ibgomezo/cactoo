@@ -1,41 +1,23 @@
-const pino = require("pino");
-const HyperDX = require("@hyperdx/node-opentelemetry");
+"use strict";
 
-let logger = pino();
+// If config/logger.js exists, use it — it must export { info, debug, error, log }.
+try {
+  module.exports = require("../config/logger");
+} catch {
+  const RESET = "\x1b[0m";
+  const CYAN  = "\x1b[36m";
+  const GRAY  = "\x1b[90m";
+  const RED   = "\x1b[31m";
+  const WHITE = "\x1b[37m";
 
-if (!process.env.NODE_ENV || process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
-  logger = pino({
-    transport: {
-      target: "pino-pretty",
-      options: {
-        colorize: true,
-        ignore: "pid,hostname",
-      },
-    }
-  });
+  function stamp() {
+    return new Date().toISOString();
+  }
+
+  module.exports = {
+    info:  (...args) => console.log( `${CYAN}[INFO]${RESET}  ${stamp()}`, ...args),
+    debug: (...args) => console.debug(`${GRAY}[DEBUG]${RESET} ${stamp()}`, ...args),
+    error: (...args) => console.error(`${RED}[ERROR]${RESET} ${stamp()}`, ...args),
+    log:   (...args) => console.log( `${WHITE}[LOG]${RESET}   ${stamp()}`, ...args),
+  };
 }
-if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "sandbox" ) {
-  const hyperLogger = pino(pino.transport({
-    mixin: HyperDX.getPinoMixinFunction,
-    targets: [
-      HyperDX.getPinoTransport("info", { // Send logs info and above
-        detectResources: true,
-      }),
-    ],
-  }));
-  logger = new Proxy(hyperLogger, {
-    get: (target, prop, receiver) => {
-      if (prop === "error") {
-        return (obj, msg, ...args) => {
-          if (obj.cause) {
-            obj.message = `${obj.message} Cause: ${obj.cause}`;
-          }
-          target.error(obj, msg, ...args);
-        };
-      }
-      return Reflect.get(target, prop, receiver);
-    },
-  });
-}
-
-module.exports = logger;
