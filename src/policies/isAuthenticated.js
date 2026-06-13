@@ -1,3 +1,3 @@
-module.exports = function(req, _res) {
+module.exports = function(req) {
   return req?.user?.isAuthenticated;
 }

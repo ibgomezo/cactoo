@@ -1,3 +1,9 @@
+/*
+ * EXAMPLE MIGRATION — users table
+ *
+ * Run with: npm run migrations
+ * Undo with: npm run migrations:undo
+ *
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable("users", {
@@ -9,12 +15,12 @@ module.exports = {
       name: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
-      }, 
+      },
       email: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
         validate: {
-          isEmail:true
+          isEmail: true
         },
         unique: {
           args: true,
@@ -43,3 +49,4 @@ module.exports = {
     return queryInterface.dropTable("users");
   },
 };
+*/

@@ -12,12 +12,12 @@ const operators = {
 }
 
 function clean(reg) {
-  reg = reg.dataValues;
-  delete reg.createdAt;
-  delete reg.updatedAt;
-  delete reg.deletedAt;
-  if (reg.password) delete reg.password;
-  return reg;
+  const data = { ...reg.dataValues };
+  delete data.createdAt;
+  delete data.updatedAt;
+  delete data.deletedAt;
+  delete data.password;
+  return data;
 }
 
 function parseQuery(model, query, result) {
@@ -75,7 +75,7 @@ module.exports = class GenericCRUDController {
       .then(obj => {
         res.send(clean(obj))
       })
-      .catch(err => {
+      .catch(() => {
         res.sendStatus(400)
       })
   }
@@ -88,7 +88,7 @@ module.exports = class GenericCRUDController {
       .then(obj => {
         res.send(clean(obj))
       })
-      .catch(err => {
+      .catch(() => {
         res.sendStatus(400)
       })
   }
@@ -101,20 +101,20 @@ module.exports = class GenericCRUDController {
       .then(obj => {
         res.send(clean(obj))
       })
-      .catch(err => {
+      .catch(() => {
         res.sendStatus(404)
       })
   }
 
   findAll(req, res) {
     let parsed = req.query.where ? parseQuery(this.model, JSON.parse(req.query.where), {}) : null;
-    let where = parsed ? { where: parsed } : {deletedAt: null, order: [["createdAt", "ASC"]]} ;
+    let where = parsed ? { where: parsed } : { where: { deletedAt: null }, order: [["createdAt", "ASC"]] };
     this.model.findAll(where)
       .then(list => {
         list = list.map(clean);
         res.send(list)
       })
-      .catch(err => {
+      .catch(() => {
         res.sendStatus(503)
       });
   }
@@ -122,9 +122,10 @@ module.exports = class GenericCRUDController {
   findById(req, res) {
     this.model.findByPk(req.params.id)
       .then(reg => {
+        if (!reg) return res.sendStatus(404);
         res.send(clean(reg))
       })
-      .catch(err => {
+      .catch(() => {
         res.sendStatus(404)
       });
   }
@@ -134,7 +135,7 @@ module.exports = class GenericCRUDController {
       .then(reg => {
         res.send(clean(reg))
       })
-      .catch(err => {
+      .catch(() => {
         res.sendStatus(404)
       });
   }

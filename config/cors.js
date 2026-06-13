@@ -1,18 +1,18 @@
-const env = process.env.NODE_ENV || "sandbox";
+const env = process.env.NODE_ENV || "development";
 
 const configs = {
-  sandbox: {
-    origin: ["http://synchro.coopgeneos.com","https://synchro.coopgeneos.com", "http://localhost:4000"],
+  development: {
+    origin: ["http://localhost:4000"],
     credentials: true,
     optionsSuccessStatus: 200,
     enabled: true
   },
   production: {
-    origin: ["http://myweb.com"],
+    origin: (process.env.CORS_ORIGINS || "").split(",").filter(Boolean),
     credentials: true,
     optionsSuccessStatus: 200,
     enabled: true
   }
 };
 
-module.exports = configs[env];
+module.exports = configs[env] || configs.development;

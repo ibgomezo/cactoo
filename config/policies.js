@@ -16,47 +16,16 @@
 // la ruta
 
 module.exports = {
+  // Apply isAuthenticated to every route by default.
+  // Remove or adjust this if your app has public endpoints.
   "*": ["isAuthenticated"],
-  "/runner/replicator/:nodeId": {
-    "post": ["isAdmin"]
-  },
-  "/runner/control-row-generator/:nodeId": {
-    "post": ["isAdmin"]
-  },
-  "/runner/node-setup/:nodeId": {
-    "post": ["isAdminOrManager"]
-  },
-  "/webhooks/pms": {
-  //  "post": ["isExternal"]
-  },
-  "/webhooks/odoo": {
-    "post": ["isExternal"]
-  },
-  "/webhooks/pms/:webhookId": {
-    "put": ["isAdmin"]
-  },
-  "/guests/:room": {
-    "get": ["isExternal"]
-  },
-  "/cron/:name/status": {
-    "get": ["isAdmin"]
-  },
-  "/cron/:name/start": {
-    "post": ["isAdmin"]
-  },
-  "/cron/:name/stop": {
-    "post": ["isAdmin"]
-  },
-  "/cron/:name": {
-    "delete": ["isAdmin"]
-  },
-  "/cron": {
-    "get": ["isAdmin"]
-  },
-  "/cron/:id": {
-    "get": ["isAdmin"]
-  },
-  "/queue/tasks": {
-    "get": ["isAdmin"]
-  },
-}
+
+  // Per-route overrides — uncomment and adapt as needed:
+  // "/products": {
+  //   "post":   ["isAdmin"],
+  //   "delete": ["isAdmin"],
+  // },
+  // "/products/:id": {
+  //   "patch":  ["isAdmin"],
+  // },
+};

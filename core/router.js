@@ -10,15 +10,7 @@ module.exports = function(app, logger) {
   app.set("views", [modulesDir, globalViewsDir]);
 
   router.get("/", function(req, res) {
-    res.render("index", { title: "Express" });
-  });
-
-  router.post("/login", function(req, res) {
-    res.redirect(307, "/auth/login");
-  });
-
-  router.all("/logout", function(req, res) {
-    res.redirect(307, "/auth/logout");
+    res.render("index", { title: "Cactoo" });
   });
 
   app.use("/", router);

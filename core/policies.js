@@ -48,7 +48,7 @@ function matchRoute(config, url) {
     if (templateSplitted.length !== reqUrlSplitted.length) {
       return false;
     }
-    for (let i=0; i<=templateSplitted.length; i++) {
+    for (let i=0; i<templateSplitted.length; i++) {
       if (templateSplitted[i] === reqUrlSplitted[i]) {
         continue;
       }
@@ -61,7 +61,7 @@ function matchRoute(config, url) {
   }
 
   const urls = Object.keys(config);
-  for (let i = 0; i <= urls.length; i++) {
+  for (let i = 0; i < urls.length; i++) {
     const urlTemplate = urls[i];
     if (match(urlTemplate, url)) {
       return urlTemplate;

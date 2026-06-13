@@ -1,18 +1,23 @@
+/*
+ * EXAMPLE MODEL — User
+ *
+ * Place model files in src/db/models/ — they are loaded automatically.
+ * Access anywhere with: const { db } = require("#core/models");
+ *
 "use strict";
 const crypto = require("crypto");
-const Node = require("./node");
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define("User", {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-    }, 
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isEmail:true
+        isEmail: true
       },
       unique: {
         args: true,
@@ -27,30 +32,21 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM("administrator", "viewer", "manager", "external"),
       allowNull: false,
     },
-    nodeId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    }
   }, {
     tableName: "users",
-    paranoid: true //Agrega el atributo deletedAt y usa borrado lógico
+    paranoid: true,
   });
 
   // User.associate = function(models) {
-  //   // associations can be defined here
+  //   User.belongsTo(models.OtherModel, { foreignKey: "otherModelId" });
   // };
 
-  // User.belongsTo(Node, {
-  //   foreignKey: {
-  //     name: "nodeId",
-  //     allowNull: true
-  //   },
-  // });
-
   // User.beforeSave((user, options) => {
-  //   user.password = crypto.createHash("sha256").update(user.password).digest("hex");
-  //   return
+  //   const salt = crypto.randomBytes(8).toString("base64");
+  //   const derivedKey = crypto.scryptSync(user.password, salt, 128);
+  //   user.password = `${salt}:${derivedKey.toString("base64")}`;
   // });
 
   return User;
 };
+*/

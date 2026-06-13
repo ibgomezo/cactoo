@@ -1,9 +1,16 @@
+/*
+ * EXAMPLE MODULE — users
+ *
+ * This file is auto-mounted at GET /users by the framework.
+ * Rename the parent folder to change the route prefix.
+ *
 const { db } = require("#core/models");
 const router = require("express").Router();
 const GenericCRUDController = require("../../../core/commons/genericCRUDController");
 
 const controller = new GenericCRUDController(db.User);
 
+// JSON + HTML content negotiation
 router.get("/", async (req, res) => {
   if (!req.accepts("html")) return controller.findAll(req, res);
   try {
@@ -26,3 +33,4 @@ router.get("/:id", async (req, res) => {
 });
 
 module.exports = router;
+*/

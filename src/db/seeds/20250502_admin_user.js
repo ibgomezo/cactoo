@@ -1,3 +1,9 @@
+/*
+ * EXAMPLE SEED — admin user
+ *
+ * Run with: npm run seeds
+ * Undo with: npm run seeds:undo
+ *
 const crypto = require("crypto");
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -17,3 +23,4 @@ module.exports = {
     return queryInterface.bulkDelete("users", null, {});
   },
 };
+*/

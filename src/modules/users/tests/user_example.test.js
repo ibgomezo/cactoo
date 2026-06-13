@@ -1,3 +1,9 @@
+/*
+ * EXAMPLE TEST — users module
+ *
+ * Place test files inside a tests/ folder within the relevant module or area.
+ * Files must be named *.test.js to be picked up by the test runner.
+ *
 const { describe, it, beforeEach, afterEach } = require("node:test");
 const assert = require("node:assert/strict");
 const request = require("supertest");
@@ -49,3 +55,4 @@ describe("Users", () => {
     });
   });
 });
+*/

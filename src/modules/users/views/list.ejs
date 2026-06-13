@@ -1,9 +1,17 @@
+<%#
+  EXAMPLE VIEW — users/list
+  Rendered by router.js with: res.render("users/views/list", { users })
+  The global layout (views/layout.ejs) wraps this content automatically.
+%>
+
+<!--
 <h1>Users</h1>
 <ul>
   <% users.forEach(user => { %>
     <li>
       <a href="/users/<%= user.id %>"><%= user.name %></a>
-      — <%= user.email %> (<%= user.role %>)
+      &mdash; <%= user.email %> (<%= user.role %>)
     </li>
   <% }) %>
 </ul>
+-->
