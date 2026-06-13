@@ -43,4 +43,16 @@ app.set("layout", "layout");
 
 loadRoutes(app, logger);
 
+app.use((req, res) => {
+  if (req.accepts("html")) return res.status(404).send("<h1>404 — Not found</h1>");
+  res.status(404).json({ error: "Not found" });
+});
+
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  logger.error(err.message || err);
+  if (req.accepts("html")) return res.status(500).send("<h1>500 — Internal server error</h1>");
+  res.status(500).json({ error: "Internal server error" });
+});
+
 module.exports = app;

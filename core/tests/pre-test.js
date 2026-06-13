@@ -36,16 +36,6 @@ sequelize.drop({cascade: true})
     return umzug.up();
   })
   .then(() => {
-    return sequelize.query(`
-      CREATE TABLE IF NOT EXISTS public.session
-        (
-            sid character varying COLLATE pg_catalog."default" NOT NULL,
-            sess json NOT NULL,
-            expire timestamp(6) without time zone NOT NULL,
-            CONSTRAINT session_pkey PRIMARY KEY (sid)
-        )`)
-  })
-  .then(() => {
     console.log("Database reset and migrations applied successfully.");
     sequelize.close();
   })

@@ -180,6 +180,33 @@ Supported operators: `!=`, `or`, `in`, `notin`, `like`.
 
 ---
 
+### Module with full CRUD via GenericCRUDRouter
+
+`GenericCRUDRouter` is a one-liner shorthand that wires all 5 CRUD routes at once, applying the global policies and middlewares chain to each one automatically:
+
+```js
+// src/modules/products/router.js
+const { db } = require("#core/models");
+const router = require("express").Router();
+const GenericCRUDRouter = require("../../core/commons/genericCRUDRouter");
+
+GenericCRUDRouter(router, db.Product);
+
+module.exports = router;
+```
+
+This is equivalent to manually declaring all five routes with `GenericCRUDController`. Use it when you want a fully generic REST resource with no custom logic. Use `GenericCRUDController` directly when you need to customize individual routes (e.g. add content negotiation, extra validation, or business logic).
+
+| Route | Method | Action |
+|---|---|---|
+| `/products` | `GET` | `findAll` — supports `?where=` filtering |
+| `/products` | `POST` | `create` |
+| `/products/:id` | `GET` | `findById` |
+| `/products/:id` | `PATCH` | `update` |
+| `/products/:id` | `DELETE` | `destroy` |
+
+---
+
 ## Responding with JSON or a View
 
 Routes can serve both HTML and JSON from the same endpoint using HTTP content negotiation. When a browser requests the URL it sends `Accept: text/html`; API clients send `Accept: application/json`.
@@ -368,6 +395,48 @@ The `config/` folder is managed by project leads. Use `config/local.js` for loca
 | `policies.js` | Route access control rules |
 | `database.js` | Database connection settings |
 | `local.js` | Local developer overrides (gitignored) |
+
+---
+
+## Logger
+
+The framework ships with a built-in logger that writes colored output to the console with a timestamp prefix:
+
+| Level | Color | Console method |
+|---|---|---|
+| `logger.info(...)` | Cyan | `console.log` |
+| `logger.debug(...)` | Gray | `console.debug` |
+| `logger.error(...)` | Red | `console.error` |
+| `logger.log(...)` | White | `console.log` |
+
+Import it anywhere with:
+
+```js
+const logger = require("#core/logger");
+```
+
+### Custom logger override
+
+To replace the built-in logger — for example to integrate HyperDX, Datadog, or any structured logging service — create `config/logger.js`. The file must export an object with `info`, `debug`, `error`, and `log` functions:
+
+```js
+// config/logger.js
+const HyperDX = require("@hyperdx/node-opentelemetry");
+// ... HyperDX.init(...)
+const pino = require("pino");
+const hyperLogger = pino(pino.transport({ ... }));
+
+module.exports = {
+  info:  (...args) => hyperLogger.info(...args),
+  debug: (...args) => hyperLogger.debug(...args),
+  error: (...args) => hyperLogger.error(...args),
+  log:   (...args) => hyperLogger.info(...args),
+};
+```
+
+When `config/logger.js` exists it takes full precedence — the built-in logger is never loaded.
+
+---
 
 ### Internal module aliases
 

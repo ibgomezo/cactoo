@@ -3,6 +3,4 @@
  * Se ejecutarán en el orden declarado.
  */
 
-module.exports = [
-  "authentication"
-]
+module.exports = [];
